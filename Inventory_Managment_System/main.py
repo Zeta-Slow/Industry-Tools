@@ -1,24 +1,33 @@
 import tkinter as tk
 from tkinter import ttk
-from controllers.main_controller import MainController
+from views.main_view import MainView
+from controllers.inventory_controller import InventoryController
 
 def main():
+    # Create main window
     root = tk.Tk()
-    root.title("Inventory Management System")
+    root.title("Sistema de Gestión de Inventario")
     root.geometry("1200x700")
     
-    # Set window icon and style
+    # Set window icon
     try:
         root.iconbitmap("assets/icon.ico")
     except:
         pass  # Icon file not found, use default
     
-    # Initialize the main controller
-    app = MainController(root)
+    # Configure styles
+    style = ttk.Style()
+    style.configure('Treeview', rowheight=25)
+    style.configure('Treeview.Heading', font=('Helvetica', 10, 'bold'))
     
-    # Make the window resizable
-    root.grid_rowconfigure(0, weight=1)
-    root.grid_columnconfigure(0, weight=1)
+    # Create view
+    view = MainView(root)
+    
+    # Create and initialize controller with view
+    controller = InventoryController(view)
+    
+    # Pack the view
+    view.pack(fill=tk.BOTH, expand=True)
     
     # Start the main loop
     root.mainloop()
